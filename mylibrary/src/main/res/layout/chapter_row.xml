@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="25dp"
+        android:divider="#aaa"
+        android:background="@drawable/edit_text"
+        android:visibility="visible"
+        android:id="@+id/layout"
+        >
+
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:layout_marginTop="15dp"
+             android:id="@+id/image"
+            android:src="@drawable/my_exam"
+            ></ImageView>
+
+
+
+
+
+        <TextView
+            android:id="@+id/chapter_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Description"
+            android:textSize="16dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            />
+        <TextView
+            android:id="@+id/fav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fav"
+            android:textSize="16dp"
+            android:visibility="gone"
+            android:textStyle="italic" />
+
+
+
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
