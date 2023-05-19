@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.widget.Toast;
 
@@ -29,6 +31,13 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.mradking.mylibrary.activity.Splash;
 import com.mradking.mylibrary.activity.chapter_list;
 import com.mradking.mylibrary.activity.list;
+import com.mradking.mylibrary.activity.main_act;
+import com.mradking.mylibrary.database.DatabaseHelper;
+import com.mradking.mylibrary.database.DatabaseHelper_Book2;
+import com.mradking.mylibrary.database.DatabaseHelper_Book3;
+import com.mradking.mylibrary.database.DatabaseHeper_Chapter;
+import com.mradking.mylibrary.interf.get_data_call;
+import com.mradking.mylibrary.modal.Modal;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +45,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class XUtils extends Activity {
 
@@ -212,6 +222,112 @@ public class XUtils extends Activity {
 
 
     }
+
+    public void book_data(String url, Context context, get_data_call call) {
+        ArrayList<String> list = new ArrayList<>();
+        GetData getData = new GetData();
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+
+        String url_1 = "https://shoppingzin.com/test/example/chapter_list_cbse.php?url="+url;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url_1, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String link = jsonObject.getString("link");
+                                list.add(link);
+                            }
+
+                            if (!list.isEmpty()) {
+                                getData.data_for_book(list.get(0), list, context, url, new get_data_call() {
+                                    @Override
+                                    public void onsusess(List<Modal> list) {
+                                        call.onsusess(list);
+                                    }
+
+                                    @Override
+                                    public void failed(String message) {
+                                        call.failed(message);
+                                    }
+                                });
+                            } else {
+                                call.failed("Empty list");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            call.failed("JSON parsing error");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        call.failed("Network request error");
+                    }
+                });
+
+        queue.add(request);
+    }
+
+
+    public void book_download_data(String url,Context context,get_data_call call){
+       List<Modal>list_test = new ArrayList<>();
+       ArrayList<String> list = new ArrayList<String>();
+       GetData getData=new GetData();
+       RequestQueue queue = Volley.newRequestQueue(context);
+
+// Create a new JSON request to the server
+       String url_1 = "https://shoppingzin.com/test/example/cbse_books_download.php?url="+url;
+       JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url_1, null,
+               new Response.Listener<JSONArray>() {
+                   @Override
+                   public void onResponse(JSONArray response) {
+                       try {
+                           // Loop through each JSON object in the array
+                           for (int i = 0; i < response.length(); i++) {
+                               // Extract the data you need from each JSON object
+                               JSONObject jsonObject = response.getJSONObject(i);
+                               String link = jsonObject.getString("link");
+                               String chapter_name_st = jsonObject.getString("chapter_name");
+                               String donwloading_link=link.replace("amp;","");
+
+                               DatabaseHeper_Chapter databaseHelper = new DatabaseHeper_Chapter(context);
+                               databaseHelper.insertData(new Modal(chapter_name_st, donwloading_link,"no"));
+
+
+
+                               list.add(link);
+
+
+                               // Do something with the extracted data
+
+                           }
+                       } catch (JSONException e) {
+                           e.printStackTrace();
+                       }
+
+                        call.onsusess(list_test);
+
+                   }
+               },
+               new Response.ErrorListener() {
+                   @Override
+                   public void onErrorResponse(VolleyError error) {
+                       error.printStackTrace();
+                       call.failed(error.getMessage().toString());
+                   }
+               });
+
+// Add the JSON request to the request queue
+       queue.add(request);
+
+
+   }
 
 
 
@@ -417,10 +533,175 @@ public class XUtils extends Activity {
     }
 
 
+    public void get_book_name(String url, Context context){
+
+
+        DatabaseHelper db = new DatabaseHelper(context);
+        List<Modal> contacts = db.getAllContacts();
+
+        if(contacts.size()==0){
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+// Create a new JSON request to the server
+            String url_1 = "https://shoppingzin.com/test/example/cbse_books_type.php?url="+url+"&type=solution";
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url_1, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            try {
+                                // Loop through each JSON object in the array
+                                for (int i = 0; i < response.length(); i++) {
+                                    // Extract the data you need from each JSON object
+                                    JSONObject jsonObject = response.getJSONObject(i);
+                                    String book_name = jsonObject.getString("book_name");
+                                    String link = jsonObject.getString("link");
+
+                                    if(book_name.toLowerCase().contains("hindi")){
+                                        Toast.makeText(context, "hindi", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                                        databaseHelper.insertData(new Modal(book_name, link,"no"));
+
+                                    }
+
+
+                                    // Do something with the extracted data
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            get_book_data_notes(url,context);
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+
+// Add the JSON request to the request queue
+            queue.add(request);
+
+        }else {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Intent intent=new Intent(context, main_act.class);
+                    context.startActivity(intent);
+                    finish();
+                }
+            }, 5000);
+
+
+
+        }
 
 
 
 
+    }
+
+    private void get_book_data_notes(String url, Context context) {
+
+        List<Modal>list = null;
+        GetData getData=new GetData();
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+// Create a new JSON request to the server
+        String url_1 = "https://shoppingzin.com/test/example/cbse_books_type.php?url="+url+"&type=note";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url_1, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            // Loop through each JSON object in the array
+                            for (int i = 0; i < response.length(); i++) {
+                                // Extract the data you need from each JSON object
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String book_name = jsonObject.getString("book_name");
+                                String link = jsonObject.getString("link");
+
+                                DatabaseHelper_Book2 databaseHelper = new DatabaseHelper_Book2(context);
+                                databaseHelper.insertData(new Modal(book_name, link,"no"));
+
+                                // Do something with the extracted data
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+//
+                        get_book_data_book(url,context);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+// Add the JSON request to the request queue
+        queue.add(request);
+
+    }
+
+    private void get_book_data_book(String url, Context context) {
+
+        List<Modal>list = null;
+        GetData getData=new GetData();
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+// Create a new JSON request to the server
+        String url_1 = "https://shoppingzin.com/test/example/cbse_books_type.php?url="+url+"&type=book";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url_1, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            // Loop through each JSON object in the array
+                            for (int i = 0; i < response.length(); i++) {
+                                // Extract the data you need from each JSON object
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String book_name = jsonObject.getString("book_name");
+                                String link = jsonObject.getString("link");
+
+                                DatabaseHelper_Book3 databaseHelper = new DatabaseHelper_Book3(context);
+                                databaseHelper.insertData(new Modal(book_name, link,"no"));
+
+                                // Do something with the extracted data
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                        Intent intent=new Intent(context, main_act.class);
+                        context.startActivity(intent);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+// Add the JSON request to the request queue
+        queue.add(request);
+
+    }
 
 
 }

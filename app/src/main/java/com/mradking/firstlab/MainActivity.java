@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
 
 
 
-         utils.one_book("https://www.ncrtsolutions.in/2017/06/class-6-science-ncert-solutions-pdf.html"
+         utils.get_book_name("https://www.ncrtsolutions.in/p/ncert-solutions-for-class-10.html"
                  ,MainActivity.this);
 
 

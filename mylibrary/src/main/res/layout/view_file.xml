@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-   >
+    >
 
 
     <LinearLayout
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         android:visibility="visible"
+        android:layout_marginTop="5dp"
         android:id="@+id/adView"
         android:orientation="vertical"
         android:gravity="center_horizontal">
@@ -21,46 +23,43 @@
 
     <TextView
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textSize="12dp"
-        android:textColor="#000"
+        android:textSize="16dp"
+        android:textColor="#5711D8"
         android:fontFamily="@font/sf_pro_display_bold"
         android:padding="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please Wait File is Downloading ..... " />
+        android:text="Your File Ready  " />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         app:lottie_url="REPLACE_JSON_URL"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/books_ani"
         app:lottie_loop="true"/>
 
-    <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textSize="20dp"
-        android:textColor="#ff0000"
-        android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0%" />
 
-    <ProgressBar
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textSize="20dp"
-        android:progressBackgroundTint="#ff0000"
-
-        android:padding="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/bt"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="0%" />
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/web"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_background"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Read Now!"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
+        />
+
 
 </LinearLayout>

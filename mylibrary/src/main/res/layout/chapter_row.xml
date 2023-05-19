@@ -17,39 +17,52 @@
 
 
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
 
             android:layout_marginTop="15dp"
              android:id="@+id/image"
-            android:src="@drawable/my_exam"
-            ></ImageView>
+            android:src="@drawable/solution_icon"
+            ></de.hdodenhof.circleimageview.CircleImageView>
 
 
 
-
-
-        <TextView
-            android:id="@+id/chapter_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Description"
-            android:textSize="16dp"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:maxLines="2"
-            />
-        <TextView
-            android:id="@+id/fav"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="fav"
-            android:textSize="16dp"
-            android:visibility="gone"
-            android:textStyle="italic" />
+            android:gravity="center_vertical"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/chapter_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Description"
+                android:fontFamily="@font/sf_pro_display_light"
+                android:textSize="16dp"
+                android:textColor="#000"
+                android:textStyle="bold"
+
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                />
+            <TextView
+                android:id="@+id/offline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Offline"
+                android:textColor="#D31919"
+                android:padding="5dp"
+                android:fontFamily="@font/sf_pro_display_bold"
+                android:layout_marginLeft="15dp"
+                android:textSize="13dp"
+                android:visibility="gone"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
 
 
 

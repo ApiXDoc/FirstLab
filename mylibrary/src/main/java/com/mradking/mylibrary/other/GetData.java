@@ -22,12 +22,15 @@ import com.mradking.mylibrary.activity.list;
 import com.mradking.mylibrary.database.DatabaseHelper;
 import com.mradking.mylibrary.database.DatabaseHelper_Book2;
 import com.mradking.mylibrary.database.DatabaseHelper_Book3;
+import com.mradking.mylibrary.database.DatabaseHeper_Chapter;
+import com.mradking.mylibrary.interf.get_data_call;
 import com.mradking.mylibrary.modal.Modal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GetData extends Activity {
     private static final String DOWNLOAD_URL = "https://docs.google.com/uc?export=download&id=0BxyMs1jY42NLZ3Y0YUlPV21ZYTA";
@@ -47,10 +50,7 @@ public class GetData extends Activity {
 
     public void getData(String link, ArrayList<String>links_list, Context context){
 
-
-
-
-        if(links_list.size()-1<=i){
+      if(links_list.size()-1<=i){
 
 
             String url="https://shoppingzin.com/test/example/example_basic_selector.php?url="+links_list.get(i);
@@ -566,6 +566,128 @@ public class GetData extends Activity {
 
 
     }
+
+
+    public void data_for_book(String link, ArrayList<String>links_list, Context context,String database_name, get_data_call call){
+        List<Modal>list = new ArrayList<>();
+
+
+        if(links_list.size()-1<=i){
+
+
+            String url="https://shoppingzin.com/test/example/example_basic_selector.php?url="+links_list.get(i);
+
+            RequestQueue requestQueue= Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        String db_link_st = response.getString("db_link");
+                        String chapter_name_st = response.getString("name");
+
+                        String inputString = chapter_name_st;
+                        int startIndex = inputString.indexOf(">") + 1;
+                        int endIndex = inputString.indexOf("<", startIndex);
+                        String result = inputString.substring(startIndex, endIndex);
+                        String donwloading_link=db_link_st.replace("amp;","");
+
+                        DatabaseHeper_Chapter databaseHelper = new DatabaseHeper_Chapter(context);
+                        databaseHelper.insertData(new Modal(result, donwloading_link,"no"));
+
+
+
+                        call.onsusess(list);
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                    }
+                }
+            }, new Response.ErrorListener() {
+                // this is the error listener method which
+                // we will call if we get any error from API.
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // below line is use to display a toast message along with our error.
+                    call.failed(error.toString());
+
+                }
+            });
+            // at last we are adding our json
+            // object request to our request
+            // queue to fetch all the json data.
+            requestQueue.add(jsonObjectRequest);
+
+
+
+
+
+
+        }else {
+
+
+            String url="https://shoppingzin.com/test/example/example_basic_selector.php?url="+link;
+
+            RequestQueue requestQueue= Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        String db_link_st = response.getString("db_link");
+                        String chapter_name_st = response.getString("name");
+
+                        String inputString = chapter_name_st;
+                        int startIndex = inputString.indexOf(">") + 1;
+                        int endIndex = inputString.indexOf("<", startIndex);
+                        String result = inputString.substring(startIndex, endIndex);
+
+                        String donwloading_link=db_link_st.replace("amp;","");
+
+                        DatabaseHeper_Chapter databaseHelper = new DatabaseHeper_Chapter(context);
+                        databaseHelper.insertData(new Modal(result, donwloading_link,"no"));
+
+
+                        data_for_book(links_list.get(++i),links_list,context,database_name,call);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                    }
+                }
+            }, new Response.ErrorListener() {
+                // this is the error listener method which
+                // we will call if we get any error from API.
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // below line is use to display a toast message along with our error.
+                    call.failed(error.toString());
+                }
+            });
+            // at last we are adding our json
+            // object request to our request
+            // queue to fetch all the json data.
+            requestQueue.add(jsonObjectRequest);
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+    }
+
+
 
 
 }

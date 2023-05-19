@@ -6,21 +6,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import com.mradking.mylibrary.modal.Modal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "solution.db";
+public class DatabaseHeper_Chapter extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "chaters.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "mytable";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_STATUS = "status";
-    public DatabaseHelper(Context context) {
+    public DatabaseHeper_Chapter(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -107,5 +106,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { id });
     }
 
+    public void deleteAllData() {
+        SQLiteDatabase database = getWritableDatabase(); // Replace with your database reference
+
+        // Delete all rows from the table
+        database.delete(TABLE_NAME, null, null);
+
+        // Close the database
+        database.close();
+    }
 
 }

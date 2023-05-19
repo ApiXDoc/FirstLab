@@ -1,11 +1,14 @@
 package com.mradking.mylibrary.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mradking.mylibrary.R;
+import com.mradking.mylibrary.interf.show_intertails_ad_call;
 import com.mradking.mylibrary.other.Ad_SetUp;
 
 import java.io.File;
@@ -54,7 +59,6 @@ public class Pdf_view_act extends AppCompatActivity {
 
         adView=findViewById(R.id.adView);
         Ad_SetUp.load_banner_ad(this,adView);
-        Ad_SetUp.loadInterstitialAd(Pdf_view_act.this);
 
 
 

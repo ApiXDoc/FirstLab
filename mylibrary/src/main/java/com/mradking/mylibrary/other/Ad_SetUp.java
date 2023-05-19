@@ -24,6 +24,7 @@ import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.mradking.mylibrary.activity.list;
+import com.mradking.mylibrary.interf.show_intertails_ad_call;
 
 import java.util.Arrays;
 
@@ -98,7 +99,7 @@ public class Ad_SetUp extends Activity {
         linearLayout.addView(mAdView);
 
     }
-    public static void loadInterstitialAd(Context context) {
+    public static void loadInterstitialAd(Context context, show_intertails_ad_call call) {
         ProgressDialog progressDialog=new ProgressDialog(context);
         progressDialog.setMessage("Please Wait Ad is Loading....");
         progressDialog.show();
@@ -121,9 +122,10 @@ public class Ad_SetUp extends Activity {
                        interstitialAd = interstitialAd;
 
 
-                       interstitialAd_show(interstitialAd,context);
+                       call.show(interstitialAd,context);
 
-                        interstitialAd.show((Activity) context);
+
+
 
                         progressDialog.dismiss();
 
@@ -134,7 +136,7 @@ public class Ad_SetUp extends Activity {
                                         // Called when fullscreen content is dismissed.
                                         // Make sure to set your reference to null so you don't
                                         // show it a second time.
-
+                                        call.close("done");
 
                                     }
 
@@ -142,6 +144,7 @@ public class Ad_SetUp extends Activity {
                                     public void onAdFailedToShowFullScreenContent(AdError adError) {
                                         // Called when fullscreen content failed to show.
                                         // Make sure to set your reference to null so you don't
+                                        call.error(adError.toString());
                                     }
 
                                     @Override

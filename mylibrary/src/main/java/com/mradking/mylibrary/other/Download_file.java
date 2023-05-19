@@ -25,17 +25,19 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.mradking.mylibrary.R;
 import com.mradking.mylibrary.activity.Pdf_view_act;
 import com.mradking.mylibrary.activity.chapter_list;
 import com.mradking.mylibrary.database.DatabaseHelper;
 import com.mradking.mylibrary.database.DatabaseHelper_Book2;
 import com.mradking.mylibrary.database.DatabaseHelper_Book3;
+import com.mradking.mylibrary.interf.show_intertails_ad_call;
 import com.mradking.mylibrary.modal.Modal;
 
 
 public class Download_file extends Activity {
-    String url="https://shoppingzin.com/test/example/example_basic_selector.php?url=https://www.ncrtsolutions.in/2016/12/ncert-solutions-class-7-maths-chapter-1.html";
+    String url;
     private static final String DOWNLOAD_URL = "https://docs.google.com/uc?export=download&id=0BxyMs1jY42NLZ3Y0YUlPV21ZYTA";
     private ProgressDialog progressDialog;
     TextView progress_tv,download_button_txt;
@@ -60,9 +62,9 @@ public class Download_file extends Activity {
         dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
         progress_tv=findViewById(R.id.tv_status);
+        url=getIntent().getExtras().getString("key");
 
-
-        shareApp(getIntent().getExtras().getString("key"));
+        shareApp(url);
 
         LinearLayout adView= findViewById(R.id.adView);
         Ad_SetUp.load__big_banner_ad(Download_file.this,adView);
@@ -96,14 +98,14 @@ public class Download_file extends Activity {
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                 request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimetype));
                 request.setDescription("Downloading file...");
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimetype));
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+                   request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimetype));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     request.setRequiresCharging(false);
                 }
                 request.setAllowedOverMetered(true);
-                request.setVisibleInDownloadsUi(true);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+                request.setVisibleInDownloadsUi(false);
+
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                 request.setMimeType(mimetype);
@@ -125,7 +127,6 @@ public class Download_file extends Activity {
             BroadcastReceiver onComplete = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    Toast.makeText(getApplicationContext(), "Downloading Complete", Toast.LENGTH_SHORT).show();
 
                     long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
                     DownloadManager.Query query = new DownloadManager.Query();
@@ -138,48 +139,68 @@ public class Download_file extends Activity {
                         String path = uri.getPath();
 
 
-                        if(getIntent().getExtras().getString("book_number").contentEquals("1")){
-
-                            DatabaseHelper databaseHelper = new DatabaseHelper(context);
-                            databaseHelper.updateData(getIntent().getExtras().getString("id")
-                                    ,path,"yes");
-
-                            Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
-                            newActivityIntent.putExtra("key", path);
-                            newActivityIntent.putExtra("back_key","back");
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            finish();
-                            context.startActivity(newActivityIntent);
-
-                        }else if(getIntent().getExtras().getString("book_number").contentEquals("2")) {
 
 
-                            DatabaseHelper_Book2 databaseHelper = new DatabaseHelper_Book2(context);
-                            databaseHelper.updateData(getIntent().getExtras().getString("id")
-                                    ,path,"yes");
 
-                            Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
-                            newActivityIntent.putExtra("key", path);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            finish();
-                            context.startActivity(newActivityIntent);
+                        Ad_SetUp.loadInterstitialAd(Download_file.this,
+                                new show_intertails_ad_call() {
+                            @Override
+                            public void show(InterstitialAd interstitialAd, Context context) {
 
-                        }
-                        else if(getIntent().getExtras().getString("book_number").contentEquals("3")) {
+                                if(interstitialAd!=null){
+
+                                    interstitialAd.show((Activity) context);
+                                }else {
+                                    sharePrefX.saveString(getApplicationContext(),url,path);
+
+                                    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                                    databaseHelper.updateData(getIntent().getExtras().getString("id")
+                                            ,path,"yes");
+
+                                    Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
+                                    newActivityIntent.putExtra("key", path);
+                                    newActivityIntent.putExtra("back_key","back");
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    finish();
+                                    context.startActivity(newActivityIntent);
+                                  }
+                            }
+
+                            @Override
+                            public void close(String done) {
+
+                                sharePrefX.saveString(getApplicationContext(),url,path);
+
+                                DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                                databaseHelper.updateData(getIntent().getExtras().getString("id")
+                                        ,path,"yes");
+
+                                Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
+                                newActivityIntent.putExtra("key", path);
+                                newActivityIntent.putExtra("back_key","back");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
+                                context.startActivity(newActivityIntent);
 
 
-                            DatabaseHelper_Book3 databaseHelper = new DatabaseHelper_Book3(context);
-                            databaseHelper.updateData(getIntent().getExtras().getString("id")
-                                    ,path,"yes");
+                            }
 
-                            Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
-                            newActivityIntent.putExtra("key", path);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            finish();
-                            context.startActivity(newActivityIntent);
+                            @Override
+                            public void error(String message) {
+                                sharePrefX.saveString(getApplicationContext(),url,path);
 
-                        }
+                                DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                                databaseHelper.updateData(getIntent().getExtras().getString("id")
+                                        ,path,"yes");
 
+                                Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
+                                newActivityIntent.putExtra("key", path);
+                                newActivityIntent.putExtra("back_key","back");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                finish();
+                                context.startActivity(newActivityIntent);
+                            }
+                        });
 
 
 
@@ -191,6 +212,7 @@ public class Download_file extends Activity {
         });
 
     }
+
 
 
 
