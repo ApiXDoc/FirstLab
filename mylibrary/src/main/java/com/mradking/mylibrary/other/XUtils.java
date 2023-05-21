@@ -949,7 +949,7 @@ public class XUtils extends Activity {
                             context.startActivity(intent);
                             ((Activity) context).finish();
 
-                          
+
 
 
 
