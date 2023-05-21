@@ -32,8 +32,11 @@ import com.mradking.mylibrary.activity.chapter_list;
 import com.mradking.mylibrary.database.DatabaseHelper;
 import com.mradking.mylibrary.database.DatabaseHelper_Book2;
 import com.mradking.mylibrary.database.DatabaseHelper_Book3;
+import com.mradking.mylibrary.interf.download_url_call;
 import com.mradking.mylibrary.interf.show_intertails_ad_call;
 import com.mradking.mylibrary.modal.Modal;
+
+import java.io.IOException;
 
 
 public class Download_file extends Activity {
@@ -62,12 +65,46 @@ public class Download_file extends Activity {
         dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
         progress_tv=findViewById(R.id.tv_status);
-        url=getIntent().getExtras().getString("key");
-
-        shareApp(url);
 
         LinearLayout adView= findViewById(R.id.adView);
         Ad_SetUp.load__big_banner_ad(Download_file.this,adView);
+
+
+
+        MyThread thread = new MyThread();
+        thread.start();
+
+
+        Toast.makeText(getApplicationContext(),getIntent().getExtras().getString("key") , Toast.LENGTH_SHORT).show();
+
+
+
+    }
+
+    private void download_act() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GetData getData=new GetData();
+
+                getData.get_downloading_link_cbse(getIntent().getExtras().getString("key"), Download_file.this, new download_url_call() {
+                    @Override
+                    public void suess(String db_url) {
+                        url=db_url;
+                        shareApp(url);
+                    }
+
+                    @Override
+                    public void fail(String message) {
+
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
 
 
 
@@ -99,7 +136,7 @@ public class Download_file extends Activity {
                 request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimetype));
                 request.setDescription("Downloading file...");
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-                   request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimetype));
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimetype));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     request.setRequiresCharging(false);
                 }
@@ -138,69 +175,57 @@ public class Download_file extends Activity {
                         Uri uri = Uri.parse(uriString);
                         String path = uri.getPath();
 
-
-
-
+//
+//
 
                         Ad_SetUp.loadInterstitialAd(Download_file.this,
                                 new show_intertails_ad_call() {
-                            @Override
-                            public void show(InterstitialAd interstitialAd, Context context) {
+                                    @Override
+                                    public void show(InterstitialAd interstitialAd, Context context) {
 
-                                if(interstitialAd!=null){
+                                        if(interstitialAd!=null){
 
-                                    interstitialAd.show((Activity) context);
-                                }else {
-                                    sharePrefX.saveString(getApplicationContext(),url,path);
-
-                                    DatabaseHelper databaseHelper = new DatabaseHelper(context);
-                                    databaseHelper.updateData(getIntent().getExtras().getString("id")
-                                            ,path,"yes");
-
-                                    Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
-                                    newActivityIntent.putExtra("key", path);
-                                    newActivityIntent.putExtra("back_key","back");
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    finish();
-                                    context.startActivity(newActivityIntent);
-                                  }
-                            }
-
-                            @Override
-                            public void close(String done) {
-
-                                sharePrefX.saveString(getApplicationContext(),url,path);
-
-                                DatabaseHelper databaseHelper = new DatabaseHelper(context);
-                                databaseHelper.updateData(getIntent().getExtras().getString("id")
-                                        ,path,"yes");
-
-                                Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
-                                newActivityIntent.putExtra("key", path);
-                                newActivityIntent.putExtra("back_key","back");
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                finish();
-                                context.startActivity(newActivityIntent);
+                                            interstitialAd.show((Activity) context);
+                                        }else {
+                                            sharePrefX.saveString(context,getIntent().getExtras().getString("key"),path);
 
 
-                            }
+                                            Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
+                                            newActivityIntent.putExtra("key", path);
+                                            newActivityIntent.putExtra("back_key","back");
+                                            context.startActivity(newActivityIntent);
+                                            finish();
+                                        }
+                                    }
 
-                            @Override
-                            public void error(String message) {
-                                sharePrefX.saveString(getApplicationContext(),url,path);
+                                    @Override
+                                    public void close(String done) {
 
-                                DatabaseHelper databaseHelper = new DatabaseHelper(context);
-                                databaseHelper.updateData(getIntent().getExtras().getString("id")
-                                        ,path,"yes");
 
-                                Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
-                                newActivityIntent.putExtra("key", path);
-                                newActivityIntent.putExtra("back_key","back");
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                finish();
-                                context.startActivity(newActivityIntent);
-                            }
-                        });
+                                        sharePrefX.saveString(Download_file.this,getIntent().getExtras().getString("key"),path);
+
+                                        Intent newActivityIntent = new Intent(Download_file.this, Pdf_view_act.class);
+                                        newActivityIntent.putExtra("key", path);
+                                        newActivityIntent.putExtra("back_key","back");
+                                        startActivity(newActivityIntent);
+                                        finish();
+
+                                    }
+
+                                    @Override
+                                    public void error(String message) {
+                                        sharePrefX.saveString(Download_file.this,getIntent().getExtras().getString("key"),path);
+
+
+
+                                        Intent newActivityIntent = new Intent(Download_file.this, Pdf_view_act.class);
+                                        newActivityIntent.putExtra("key", path);
+                                        newActivityIntent.putExtra("back_key","back");
+                                        startActivity(newActivityIntent);
+                                        finish();
+
+                                    }
+                                });
 
 
 
@@ -245,7 +270,23 @@ public class Download_file extends Activity {
 
 
 
+    public class after_download_act {
+        public void message(Context context,String path){
 
+////
+//            sharePrefX.saveString(context,getIntent().getExtras().getString("key"),path);
+
+            Intent newActivityIntent = new Intent(context, Pdf_view_act.class);
+            newActivityIntent.putExtra("key", path);
+            newActivityIntent.putExtra("back_key","back");
+
+
+            context.startActivity(newActivityIntent);
+            finish();
+
+        }
+
+    }
 
     public  class DownStatus extends AsyncTask<String,String,String> {
 
@@ -329,5 +370,11 @@ public class Download_file extends Activity {
         return msg;
     }
 
+    public class MyThread extends Thread {
+        @Override
+        public void run() {
+            download_act();
 
+        }
+    }
 }

@@ -1,32 +1,17 @@
 package com.mradking.firstlab;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.mradking.mylibrary.activity.Splash;
 import com.mradking.mylibrary.other.Ad_SetUp;
 import com.mradking.mylibrary.other.XUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
@@ -49,8 +34,27 @@ public class MainActivity extends Activity {
 
 
 
-         utils.get_book_name("https://www.ncrtsolutions.in/p/ncert-solutions-for-class-10.html"
-                 ,MainActivity.this);
+//         utils.get_book_name("https://www.ncrtsolutions.in/p/ncert-solutions-for-class-11.html"
+//                 ,MainActivity.this);
+
+
+
+//         utils.get_book_sol_cbse("english", "11th",
+//                 "books/ncert-notes/english/class-11th/maths/1471",
+//                 "Maths Notes"
+//                 , MainActivity.this);
+
+        Drawable drawable = getResources().getDrawable(R.drawable.my_exam); // Replace "my_image" with the actual name of your drawable resource
+
+        utils.app_set_up("english"
+                 ,"10th",
+                "Science notes"
+                ,"books/ncert-notes/english/class-10th/maths/1471"
+                ,"10th Science Notes"
+                ,"Notes || Books || Solutions"
+                , drawable
+                ,this
+                );
 
 
 

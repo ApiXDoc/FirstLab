@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#fff"
     android:gravity="center"
@@ -9,8 +11,6 @@
 
     <LinearLayout
 
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical" android:layout_width="match_parent"
         android:background="#fff"
         android:gravity="center"
@@ -20,31 +20,17 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="260dp"
-            android:layout_height="260dp"
-            ></ImageView>
-
-
-
-
-
-        <ProgressBar
-            android:id="@+id/blue_dot"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-             />
-
+            android:layout_height="260dp"></ImageView>
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FF3B30"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/baloo"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/sf_pro_display_bold"
             android:textSize="20dp"
+            android:id="@+id/app_name"
             android:text="@string/app_name"
             ></TextView>
 
@@ -52,9 +38,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ED27EC"
-            android:fontFamily="@font/baloo"
+            android:fontFamily="@font/sf_pro_display_bold"
             android:textSize="15dp"
+            android:id="@+id/tag_line"
             android:text="Notes || Sollution || Books || Mcqs"
             ></TextView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:lottie_url="REPLACE_JSON_URL"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/dot_bar"
+            app:lottie_loop="true"/>
+
+
     </LinearLayout>
 </RelativeLayout>

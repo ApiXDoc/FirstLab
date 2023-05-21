@@ -47,6 +47,9 @@ public class chapter_list extends Activity {
         cart_recycler_view =findViewById(R.id.list);
 
 
+        LinearLayout adView= findViewById(R.id.adView);
+        Ad_SetUp.load_banner_ad(chapter_list.this,adView);
+
 
          utils =new XUtils();
 
@@ -57,9 +60,6 @@ public class chapter_list extends Activity {
 
 
 
-
-        LinearLayout adView= findViewById(R.id.adView);
-        Ad_SetUp.load_banner_ad(chapter_list.this,adView);
 
 
     }
@@ -78,11 +78,11 @@ public class chapter_list extends Activity {
     }
 
     private void book_data_set_up(String book) {
-        String book_name=getIntent().getExtras().getString("book_name");
+        String book_name=getIntent().getExtras().getString("book_name").trim();
         if(book.contentEquals("book")){
 
             toolbar.setTitle(book_name);
-            utils.book_download_data( url
+            utils.book_data_cbse( url
                     , this, new get_data_call() {
                         @Override
                         public void onsusess(List<Modal> list) {
@@ -115,7 +115,7 @@ public class chapter_list extends Activity {
         }
         else if(book.contentEquals("note")){
             toolbar.setTitle(book_name+" Notes");
-            utils.book_data( url
+            utils.book_data_cbse( url
                     , this, new get_data_call() {
                         @Override
                         public void onsusess(List<Modal> list) {
@@ -146,7 +146,7 @@ public class chapter_list extends Activity {
         }
         else if(book.contentEquals("solution")){
             toolbar.setTitle(book_name+" Solutions");
-            utils.book_data( url
+            utils.book_data_cbse( url
                     , this, new get_data_call() {
                         @Override
                         public void onsusess(List<Modal> list) {

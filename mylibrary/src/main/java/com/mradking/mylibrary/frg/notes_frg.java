@@ -36,6 +36,9 @@ public class notes_frg extends Fragment { private RecyclerView cart_recycler_vie
         Drawable drawable = getResources().getDrawable(R.drawable.notes); // Replace "my_image" with the actual name of your drawable resource
         imageView.setImageDrawable(drawable);
 
+        LinearLayout adView= view.findViewById(R.id.adView);
+        Ad_SetUp.load_banner_ad(getActivity(),adView);
+
         List<Modal> contacts = db.getAllContacts();
 
         saveFileAdapter = new main_adapter( getActivity(),contacts,"2");
@@ -50,8 +53,6 @@ public class notes_frg extends Fragment { private RecyclerView cart_recycler_vie
         cart_recycler_view.setLayoutManager(lm1);
         cart_recycler_view.setAdapter(saveFileAdapter);
 
-        LinearLayout adView= view.findViewById(R.id.adView);
-        Ad_SetUp.load_banner_ad(getActivity(),adView);
 
 
 

@@ -34,6 +34,10 @@ public class solution_frg extends Fragment {
         DatabaseHelper db = new DatabaseHelper(getActivity());
         cart_recycler_view =view.findViewById(R.id.list);
 
+        LinearLayout adView= view.findViewById(R.id.adView);
+        Ad_SetUp.load_banner_ad(getActivity(),adView);
+
+
         List<Modal> contacts = db.getAllContacts();
 
         imageView=view.findViewById(R.id.image);
@@ -52,9 +56,6 @@ public class solution_frg extends Fragment {
         cart_recycler_view.setHasFixedSize(true);
         cart_recycler_view.setLayoutManager(lm1);
         cart_recycler_view.setAdapter(Adapter);
-
-        LinearLayout adView= view.findViewById(R.id.adView);
-        Ad_SetUp.load_banner_ad(getActivity(),adView);
 
 
 

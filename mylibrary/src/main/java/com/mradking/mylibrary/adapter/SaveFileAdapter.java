@@ -59,23 +59,28 @@ public class SaveFileAdapter extends RecyclerView.Adapter<SaveFileAdapter.ViewHo
         }
 
         if(key.contentEquals("2")){
+
+            holder.name_file.setText(noteslist.get(position).getName());
+        } else if(key.contentEquals("2")){
             Drawable drawable = mCtx.getResources().getDrawable(R.drawable.note_icon); // Replace "my_image" with the actual name of your drawable resource
             holder.image.setImageDrawable(drawable);
+            holder.name_file.setText(noteslist.get(position).getName());
 
         }else if(key.contentEquals("3")){
             Drawable drawable = mCtx.getResources().getDrawable(R.drawable.books_icon); // Replace "my_image" with the actual name of your drawable resource
             holder.image.setImageDrawable(drawable);
 
-        }
-        holder.name_file.setText(noteslist.get(position).getName());
 
+            holder.name_file.setText(noteslist.get(position).getName().substring(2));
+
+        }
+
+        holder.name_file.setText(noteslist.get(position).getName());
 
 
         holder.mview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
 
                 if( sharePrefX.containsKey(mCtx,noteslist.get(position).getPaths())){
                     String path =sharePrefX.getString(mCtx,noteslist.get(position).getPaths(),"no");
@@ -85,7 +90,6 @@ public class SaveFileAdapter extends RecyclerView.Adapter<SaveFileAdapter.ViewHo
 
                 }else {
 
-
                     Intent intent=new Intent(mCtx, Download_file.class);
                     intent.putExtra("key",noteslist.get(position).getPaths());
                     intent.putExtra("id",String.valueOf(noteslist.get(position).get_id()));
@@ -94,8 +98,6 @@ public class SaveFileAdapter extends RecyclerView.Adapter<SaveFileAdapter.ViewHo
                     mCtx.startActivity(intent);
 
                 }
-
-//
 
 
             }

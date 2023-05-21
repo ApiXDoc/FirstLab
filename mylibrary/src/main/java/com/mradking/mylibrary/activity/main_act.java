@@ -1,6 +1,8 @@
 package com.mradking.mylibrary.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.mradking.mylibrary.R;
@@ -20,8 +23,12 @@ import com.mradking.mylibrary.frg.Ncrt_Sollution_book_1_Frg;
 import com.mradking.mylibrary.frg.Ncrt_Sollution_book_2_Frg;
 import com.mradking.mylibrary.frg.Ncrt_Sollution_book_3_Frg;
 import com.mradking.mylibrary.frg.books_frg;
+import com.mradking.mylibrary.frg.home_page_frg;
 import com.mradking.mylibrary.frg.notes_frg;
 import com.mradking.mylibrary.frg.solution_frg;
+import com.mradking.mylibrary.other.sharePrefX;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +51,17 @@ public class main_act extends AppCompatActivity {
 
 
 
+
+
     }
 
 
     private void setupViewPager(ViewPager2 viewPager) {
 
-
+            String home_st=sharePrefX.getString(getApplicationContext(),"app_name","home");
 //
             ViewPagerAdapter1 adapter = new ViewPagerAdapter1(main_act.this);
-
+            adapter.addFragment(new home_page_frg(),home_st );
             adapter.addFragment(new solution_frg(), "Solutions");
             adapter.addFragment(new notes_frg(), "Notes");
             adapter.addFragment(new books_frg(), "Books");

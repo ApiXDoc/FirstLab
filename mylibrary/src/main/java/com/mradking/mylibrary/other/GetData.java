@@ -23,6 +23,7 @@ import com.mradking.mylibrary.database.DatabaseHelper;
 import com.mradking.mylibrary.database.DatabaseHelper_Book2;
 import com.mradking.mylibrary.database.DatabaseHelper_Book3;
 import com.mradking.mylibrary.database.DatabaseHeper_Chapter;
+import com.mradking.mylibrary.interf.download_url_call;
 import com.mradking.mylibrary.interf.get_data_call;
 import com.mradking.mylibrary.modal.Modal;
 
@@ -687,7 +688,93 @@ public class GetData extends Activity {
 
     }
 
+    public void get_downloading_link(String url1, Context context, download_url_call call){
+
+        String url="https://shoppingzin.com/test/example/example_basic_selector.php?url="+url1;
+
+        RequestQueue requestQueue= Volley.newRequestQueue(context);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String db_link_st = response.getString("db_link");
+                    String donwloading_link=db_link_st.replace("amp;","");
 
 
+
+
+                   call.suess(donwloading_link);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            // this is the error listener method which
+            // we will call if we get any error from API.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // below line is use to display a toast message along with our error.
+                call.fail(error.toString());
+
+            }
+        });
+        // at last we are adding our json
+        // object request to our request
+        // queue to fetch all the json data.
+        requestQueue.add(jsonObjectRequest);
+
+
+
+
+    }
+
+    public void get_downloading_link_cbse(String url1, Context context, download_url_call call){
+
+        String url="https://shoppingzin.com/test/example/books_data.php?url="+"https://www.selfstudys.com/"+url1;
+
+        RequestQueue requestQueue= Volley.newRequestQueue(context);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String db_link_st = response.getString("db_link");
+
+
+
+
+                    call.suess(db_link_st);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            // this is the error listener method which
+            // we will call if we get any error from API.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // below line is use to display a toast message along with our error.
+                call.fail(error.toString());
+
+            }
+        });
+        // at last we are adding our json
+        // object request to our request
+        // queue to fetch all the json data.
+        requestQueue.add(jsonObjectRequest);
+
+
+
+
+    }
 
 }

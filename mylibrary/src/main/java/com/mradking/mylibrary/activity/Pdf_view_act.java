@@ -3,6 +3,7 @@ package com.mradking.mylibrary.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
@@ -32,16 +34,19 @@ public class Pdf_view_act extends AppCompatActivity {
     int mode_check;
     Toolbar toolbar;
     String pdf_uri;
-
+    private Handler mHandler;
     LinearLayout adView;
+    @Override
+    protected void onDestroy() {
+        // Perform any necessary cleanup
+        mHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
 
     @Override
     public void onBackPressed() {
+        mHandler.removeCallbacksAndMessages(null);
         super.onBackPressed();
-
-
-
-
 
 
     }
@@ -60,13 +65,34 @@ public class Pdf_view_act extends AppCompatActivity {
         adView=findViewById(R.id.adView);
         Ad_SetUp.load_banner_ad(this,adView);
 
+        mHandler = new Handler();
+         mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                final RatingDialog ratingDialog = new RatingDialog.Builder(Pdf_view_act.this)
+                        .threshold(5)
+                        .title("Love our app? Show your support with a five-star rating! Thank you!")
+                        .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                            @Override
+                            public void onFormSubmitted(String feedback) {
+
+                                Intent mailIntent = new Intent(Intent.ACTION_VIEW);
+                                Uri data = Uri.parse("mailto:?subject=" + "My Valuable Feedback"+ "&body=" + feedback + "&to=" + "Powerx4l5@gmail.com");
+                                mailIntent.setData(data);
+                                startActivity(Intent.createChooser(mailIntent, "Send mail..."));
+                            }
+                        }).build();
+
+                ratingDialog.show();
+
+            }
+        }, 20000);
 
 
-
-
-
-
-
+//
+//
+//
         pdfView.fromFile(new File(pdf_uri))
 
                 .enableSwipe(true) // allows to block changing pages using swipe

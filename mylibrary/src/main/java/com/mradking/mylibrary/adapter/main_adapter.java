@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mradking.mylibrary.R;
 import com.mradking.mylibrary.activity.Pdf_view_act;
 import com.mradking.mylibrary.activity.chapter_list;
+import com.mradking.mylibrary.activity.download_read_act;
 import com.mradking.mylibrary.database.DatabaseHelper;
 import com.mradking.mylibrary.database.DatabaseHeper_Chapter;
 import com.mradking.mylibrary.modal.Modal;
 import com.mradking.mylibrary.other.Download_file;
 import com.mradking.mylibrary.other.XUtils;
+import com.mradking.mylibrary.other.sharePrefX;
 
 import java.util.List;
 
@@ -50,6 +52,11 @@ public class main_adapter extends RecyclerView.Adapter<main_adapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull main_adapter.ViewHolder holder, int position) {
 
+        if( sharePrefX.containsKey(mCtx,noteslist.get(position).getPaths())){
+
+            holder.offline.setVisibility(View.VISIBLE);
+        }
+
         if(key.contentEquals("2")){
             Drawable drawable = mCtx.getResources().getDrawable(R.drawable.note_icon); // Replace "my_image" with the actual name of your drawable resource
             holder.image.setImageDrawable(drawable);
@@ -59,7 +66,7 @@ public class main_adapter extends RecyclerView.Adapter<main_adapter.ViewHolder>{
             holder.image.setImageDrawable(drawable);
 
         }
-        holder.name_file.setText(noteslist.get(position).getName());
+        holder.name_file.setText(noteslist.get(position).getName().trim());
 
 
         holder.mview.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +75,7 @@ public class main_adapter extends RecyclerView.Adapter<main_adapter.ViewHolder>{
                 if(key.contentEquals("1")){
                     DatabaseHeper_Chapter db = new DatabaseHeper_Chapter(mCtx);
                     db.deleteAllData();
-                    Intent intent=new Intent(mCtx,chapter_list.class);
+                     Intent intent=new Intent(mCtx,chapter_list.class);
                     intent.putExtra("book","solution");
                     intent.putExtra("key",noteslist.get(position).getPaths());
                     intent.putExtra("book_name",noteslist.get(position).getName());
@@ -91,6 +98,25 @@ public class main_adapter extends RecyclerView.Adapter<main_adapter.ViewHolder>{
                     intent.putExtra("book_name",noteslist.get(position).getName());
                     mCtx.startActivity(intent);
                 }
+                else if(key.contentEquals("4")){
+                    if( sharePrefX.containsKey(mCtx,noteslist.get(position).getPaths())){
+                        String path =sharePrefX.getString(mCtx,noteslist.get(position).getPaths(),"no");
+                        Intent intent=new Intent(mCtx, download_read_act.class);
+                        intent.putExtra("key",path);
+                        mCtx.startActivity(intent);
+
+                    }else {
+
+                        Intent intent=new Intent(mCtx, Download_file.class);
+                        intent.putExtra("key",noteslist.get(position).getPaths());
+                        intent.putExtra("id",String.valueOf(noteslist.get(position).get_id()));
+                        intent.putExtra("book_number",key);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mCtx.startActivity(intent);
+
+                    }
+
+                }
 
 
             }
@@ -107,7 +133,7 @@ public class main_adapter extends RecyclerView.Adapter<main_adapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         View mview;
-        TextView name_file,date;
+        TextView name_file,offline;
         CardView bt,view,share;
         DatabaseHelper databaseHelper;
         CircleImageView image;
@@ -116,6 +142,7 @@ public class main_adapter extends RecyclerView.Adapter<main_adapter.ViewHolder>{
             super(itemView);
             mview=itemView;
 
+            offline=mview.findViewById(R.id.offline);
             name_file=mview.findViewById(R.id.chapter_name);
             databaseHelper=new DatabaseHelper(mCtx);
             image=mview.findViewById(R.id.image);
