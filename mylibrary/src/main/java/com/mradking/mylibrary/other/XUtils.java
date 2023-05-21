@@ -944,7 +944,12 @@ public class XUtils extends Activity {
 
                             }
 
-                            
+                            Intent intent=new Intent(context, main_act.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(intent);
+                            ((Activity) context).finish();
+
+                          
 
 
 
