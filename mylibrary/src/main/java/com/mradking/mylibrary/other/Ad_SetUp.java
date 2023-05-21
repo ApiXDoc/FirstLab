@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -23,7 +22,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.mradking.mylibrary.activity.list;
 import com.mradking.mylibrary.interf.show_intertails_ad_call;
 
 import java.util.Arrays;
@@ -123,7 +121,7 @@ public class Ad_SetUp extends Activity {
 
 
                        call.show(interstitialAd,context);
-
+                        progressDialog.dismiss();
 
 
 
@@ -137,6 +135,7 @@ public class Ad_SetUp extends Activity {
                                         // Make sure to set your reference to null so you don't
                                         // show it a second time.
                                         call.close("done");
+                                        progressDialog.dismiss();
 
                                     }
 
@@ -145,6 +144,7 @@ public class Ad_SetUp extends Activity {
                                         // Called when fullscreen content failed to show.
                                         // Make sure to set your reference to null so you don't
                                         call.error(adError.toString());
+                                        progressDialog.dismiss();
                                     }
 
                                     @Override
@@ -160,7 +160,8 @@ public class Ad_SetUp extends Activity {
                         // Handle the error
                         Log.i(TAG, loadAdError.getMessage());
                         interstitialAd[0] = null;
-
+                        call.error("no load");
+                        progressDialog.dismiss();
                         String error =
                                 String.format(
                                         "domain: %s, code: %d, message: %s",

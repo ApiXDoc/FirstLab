@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mradking.mylibrary.R;
-import com.mradking.mylibrary.adapter.SaveFileAdapter;
 import com.mradking.mylibrary.adapter.main_adapter;
 import com.mradking.mylibrary.database.DatabaseHelper;
 import com.mradking.mylibrary.modal.Modal;
@@ -34,15 +33,16 @@ public class solution_frg extends Fragment {
         DatabaseHelper db = new DatabaseHelper(getActivity());
         cart_recycler_view =view.findViewById(R.id.list);
 
+        imageView=view.findViewById(R.id.image);
+        Drawable drawable = getResources().getDrawable(R.drawable.solution); // Replace "my_image" with the actual name of your drawable resource
+        imageView.setImageDrawable(drawable);
+
         LinearLayout adView= view.findViewById(R.id.adView);
         Ad_SetUp.load_banner_ad(getActivity(),adView);
 
 
         List<Modal> contacts = db.getAllContacts();
 
-        imageView=view.findViewById(R.id.image);
-        Drawable drawable = getResources().getDrawable(R.drawable.solution); // Replace "my_image" with the actual name of your drawable resource
-        imageView.setImageDrawable(drawable);
 
 
         Adapter = new main_adapter( getActivity(),contacts,"1");

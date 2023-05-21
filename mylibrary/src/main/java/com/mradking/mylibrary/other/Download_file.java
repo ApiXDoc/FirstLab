@@ -28,15 +28,8 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.mradking.mylibrary.R;
 import com.mradking.mylibrary.activity.Pdf_view_act;
-import com.mradking.mylibrary.activity.chapter_list;
-import com.mradking.mylibrary.database.DatabaseHelper;
-import com.mradking.mylibrary.database.DatabaseHelper_Book2;
-import com.mradking.mylibrary.database.DatabaseHelper_Book3;
 import com.mradking.mylibrary.interf.download_url_call;
 import com.mradking.mylibrary.interf.show_intertails_ad_call;
-import com.mradking.mylibrary.modal.Modal;
-
-import java.io.IOException;
 
 
 public class Download_file extends Activity {
@@ -74,8 +67,6 @@ public class Download_file extends Activity {
         MyThread thread = new MyThread();
         thread.start();
 
-
-        Toast.makeText(getApplicationContext(),getIntent().getExtras().getString("key") , Toast.LENGTH_SHORT).show();
 
 
 
