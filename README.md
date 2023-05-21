@@ -16,7 +16,7 @@ allprojects {
   
   ...gradle
   dependencies {
-	        implementation 'com.github.pawandeepZin:FirstLab:1.0.6'
+	        implementation 'com.github.pawandeepZin:FirstLab:1.0.8'
 	}
 
 ...
