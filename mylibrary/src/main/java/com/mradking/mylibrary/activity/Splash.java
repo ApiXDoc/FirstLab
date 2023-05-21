@@ -1,21 +1,14 @@
 package com.mradking.mylibrary.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.mradking.mylibrary.R;
-import com.mradking.mylibrary.interf.open;
-import com.mradking.mylibrary.other.Ad_SetUp;
 import com.mradking.mylibrary.other.XUtils;
 
 public class Splash extends Activity {
@@ -47,24 +40,7 @@ public class Splash extends Activity {
 
              utils.get_book_sol_cbse(lanuga, clas,
                      home_page_url,
-                     home_page_name
-                     , this, new open() {
-                         @Override
-                         public void open_done() {
-
-                             Intent intent=new Intent(Splash.this, main_act.class);
-                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                             startActivity(intent);
-                             finish();
-
-                         }
-
-                         @Override
-                         public void failed(String message) {
-
-                             Toast.makeText(getApplicationContext(), "try again", Toast.LENGTH_SHORT).show();
-                         }
-                     });
+                     home_page_name,this);
 
 
 

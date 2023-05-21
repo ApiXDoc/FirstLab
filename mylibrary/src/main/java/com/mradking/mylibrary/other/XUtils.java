@@ -39,7 +39,6 @@ import com.mradking.mylibrary.database.DatabaseHelper_Book3;
 import com.mradking.mylibrary.database.DatabaseHelper_Home;
 import com.mradking.mylibrary.database.DatabaseHeper_Chapter;
 import com.mradking.mylibrary.interf.get_data_call;
-import com.mradking.mylibrary.interf.open;
 import com.mradking.mylibrary.modal.Modal;
 
 import org.json.JSONArray;
@@ -703,7 +702,7 @@ public class XUtils extends Activity {
 
 
     public void get_book_sol_cbse(String lng, String clas, String home_page_url,
-                                  String app_name, Context context, open call){
+                                  String app_name, Context context){
 
 
         DatabaseHelper db = new DatabaseHelper(context);
@@ -740,7 +739,7 @@ public class XUtils extends Activity {
                                 e.printStackTrace();
                             }
 
-                            get_book_data_notes_cbse(lng,clas,home_page_url,app_name,context,call);
+                            get_book_data_notes_cbse(lng,clas,home_page_url,app_name,context);
 
                         }
                     },
@@ -774,7 +773,7 @@ public class XUtils extends Activity {
 
 
     }
-    private void get_book_data_notes_cbse(String lng, String clas, String home_page_url, String app_name, Context context, open call) {
+    private void get_book_data_notes_cbse(String lng, String clas, String home_page_url, String app_name, Context context) {
 
         List<Modal>list = null;
         GetData getData=new GetData();
@@ -808,7 +807,7 @@ public class XUtils extends Activity {
                         }
 
 //
-                        get_book_data_book_cbse(lng,clas,home_page_url,app_name,context,call);
+                        get_book_data_book_cbse(lng,clas,home_page_url,app_name,context);
 
                     }
                 },
@@ -824,7 +823,7 @@ public class XUtils extends Activity {
 
     }
 
-    private void get_book_data_book_cbse(String lng, String clas, String home_page_url, String app_name, Context context, open call) {
+    private void get_book_data_book_cbse(String lng, String clas, String home_page_url, String app_name, Context context) {
 
         List<Modal>list = null;
         GetData getData=new GetData();
@@ -854,7 +853,7 @@ public class XUtils extends Activity {
                                 // Do something with the extracted data
 
                             }
-                            home_page_book_data_cbse(home_page_url,app_name,context,call);
+                            home_page_book_data_cbse(home_page_url,app_name,context);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -921,7 +920,7 @@ public class XUtils extends Activity {
 
         queue.add(request);
     }
-    public void home_page_book_data_cbse(String url, String main_app_subject, Context context, open call) {
+    public void home_page_book_data_cbse(String url, String main_app_subject, Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -945,14 +944,14 @@ public class XUtils extends Activity {
 
                             }
 
-                            call.open_done();
+                            
 
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                        call.failed(e.toString());
+                       
                         }
                     }
                 },
