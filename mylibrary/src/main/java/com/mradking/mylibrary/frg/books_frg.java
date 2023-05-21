@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mradking.mylibrary.R;
-import com.mradking.mylibrary.adapter.SaveFileAdapter;
 import com.mradking.mylibrary.adapter.main_adapter;
 import com.mradking.mylibrary.database.DatabaseHelper_Book3;
 import com.mradking.mylibrary.modal.Modal;
@@ -35,7 +33,7 @@ public class books_frg extends Fragment {
         cart_recycler_view =view.findViewById(R.id.list);
 
         ImageView imageView=view.findViewById(R.id.image);
-        Drawable drawable = getResources().getDrawable(R.drawable.books); // Replace "my_image" with the actual name of your drawable resource
+        Drawable drawable = getResources().getDrawable(R.drawable.notes); // Replace "my_image" with the actual name of your drawable resource
         imageView.setImageDrawable(drawable);
 
         LinearLayout adView= view.findViewById(R.id.adView);

@@ -34,7 +34,7 @@ public class solution_frg extends Fragment {
         cart_recycler_view =view.findViewById(R.id.list);
 
         imageView=view.findViewById(R.id.image);
-        Drawable drawable = getResources().getDrawable(R.drawable.solution); // Replace "my_image" with the actual name of your drawable resource
+        Drawable drawable = getResources().getDrawable(R.drawable.notes); // Replace "my_image" with the actual name of your drawable resource
         imageView.setImageDrawable(drawable);
 
         LinearLayout adView= view.findViewById(R.id.adView);

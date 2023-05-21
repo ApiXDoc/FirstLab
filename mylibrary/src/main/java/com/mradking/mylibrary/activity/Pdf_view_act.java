@@ -1,15 +1,11 @@
 package com.mradking.mylibrary.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +15,8 @@ import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mradking.mylibrary.R;
-import com.mradking.mylibrary.interf.show_intertails_ad_call;
 import com.mradking.mylibrary.other.Ad_SetUp;
 
 import java.io.File;
@@ -70,8 +64,10 @@ public class Pdf_view_act extends AppCompatActivity {
             @Override
             public void run() {
 
+
                 final RatingDialog ratingDialog = new RatingDialog.Builder(Pdf_view_act.this)
                         .threshold(5)
+
                         .title("Love our app? Show your support with a five-star rating! Thank you!")
                         .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
                             @Override
