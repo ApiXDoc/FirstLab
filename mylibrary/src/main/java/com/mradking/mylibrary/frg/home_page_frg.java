@@ -55,7 +55,7 @@ public class home_page_frg  extends Fragment {
         cart_recycler_view.setLayoutManager(lm1);
         cart_recycler_view.setAdapter(Adapter);
 
-   
+
 
         return view;
     }

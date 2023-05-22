@@ -49,7 +49,7 @@
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/night_mode"
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/fab"
             ></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
