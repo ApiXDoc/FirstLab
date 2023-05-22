@@ -1,5 +1,7 @@
 package com.mradking.mylibrary.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,8 +17,10 @@ import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mradking.mylibrary.R;
+import com.mradking.mylibrary.interf.show_intertails_ad_call;
 import com.mradking.mylibrary.other.Ad_SetUp;
 
 import java.io.File;
@@ -40,10 +44,12 @@ public class Pdf_view_act extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         mHandler.removeCallbacksAndMessages(null);
-        super.onBackPressed();
+        ad_show();
 
 
     }
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +89,7 @@ public class Pdf_view_act extends AppCompatActivity {
                 ratingDialog.show();
 
             }
-        }, 20000);
+        }, 10000);
 
 
 //
@@ -167,6 +173,41 @@ public class Pdf_view_act extends AppCompatActivity {
 
     }
 
+    private void ad_show() {
+        Ad_SetUp.loadInterstitialAd(Pdf_view_act.this,
+                new show_intertails_ad_call() {
+                    @Override
+                    public void show(InterstitialAd interstitialAd, Context context) {
 
+                        if(interstitialAd!=null){
+
+                            interstitialAd.show((Activity) context);
+                        }else {
+
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void close(String done) {
+
+
+
+                        finish();
+
+                    }
+
+                    @Override
+                    public void error(String message) {
+
+                        finish();
+
+                    }
+                });
+
+
+
+
+    }
 
 }

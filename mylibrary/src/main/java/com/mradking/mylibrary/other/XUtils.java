@@ -56,7 +56,6 @@ public class XUtils extends Activity {
 
 
 
-
     public String getRandomString(int length) {
         String allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder sb = new StringBuilder(length);
@@ -151,8 +150,8 @@ public class XUtils extends Activity {
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, " 10th class Science Notes ");
-            String shareMessage="PDF Spliter is one of best App" +
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, " Donwload Notes Solution books of Your Class");
+            String shareMessage="best App Education App " +
                     "\uD83D\uDC49\uD83C\uDFFBApp Link:-"+appLink +
                     "\n";
             context.startActivity(Intent.createChooser(shareIntent, "choose one"));
