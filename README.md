@@ -18,7 +18,7 @@ allprojects {
   
   for add fragment of rs or rd books
   dependencies {
-	        implementation 'com.github.pawandeepZin:FirstLab:1.1.2'
+	        implementation 'com.github.pawandeepZin:FirstLab:1.1.3'
 	}
 
 for simple book
