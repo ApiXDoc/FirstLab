@@ -1,6 +1,7 @@
 package com.mradking.mylibrary.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.mradking.mylibrary.R;
+import com.mradking.mylibrary.interf.open_call;
 import com.mradking.mylibrary.other.XUtils;
 
 public class Splash extends Activity {
@@ -40,7 +42,21 @@ public class Splash extends Activity {
 
              utils.get_book_sol_cbse(lanuga, clas,
                      home_page_url,
-                     home_page_name,this);
+                     home_page_name, this, new open_call() {
+                         @Override
+                         public void open() {
+
+                             Intent intent=new Intent(Splash.this, main_act.class);
+                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                         }
+
+                         @Override
+                         public void error(String message) {
+
+                         }
+                     });
 
 
 

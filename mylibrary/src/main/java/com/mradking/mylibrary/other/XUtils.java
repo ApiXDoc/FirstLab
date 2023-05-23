@@ -39,6 +39,7 @@ import com.mradking.mylibrary.database.DatabaseHelper_Book3;
 import com.mradking.mylibrary.database.DatabaseHelper_Home;
 import com.mradking.mylibrary.database.DatabaseHeper_Chapter;
 import com.mradking.mylibrary.interf.get_data_call;
+import com.mradking.mylibrary.interf.open_call;
 import com.mradking.mylibrary.modal.Modal;
 
 import org.json.JSONArray;
@@ -701,7 +702,7 @@ public class XUtils extends Activity {
 
 
     public void get_book_sol_cbse(String lng, String clas, String home_page_url,
-                                  String app_name, Context context){
+                                  String app_name, Context context, open_call call){
 
 
         DatabaseHelper db = new DatabaseHelper(context);
@@ -738,7 +739,7 @@ public class XUtils extends Activity {
                                 e.printStackTrace();
                             }
 
-                            get_book_data_notes_cbse(lng,clas,home_page_url,app_name,context);
+                            get_book_data_notes_cbse(lng,clas,home_page_url,app_name,context,call);
 
                         }
                     },
@@ -758,9 +759,8 @@ public class XUtils extends Activity {
                 @Override
                 public void run() {
 
-                    Intent intent=new Intent(context, main_act.class);
-                    context.startActivity(intent);
-                    ((Activity) context).finish();
+                    call.open();
+
                 }
             }, 2000);
 
@@ -772,7 +772,8 @@ public class XUtils extends Activity {
 
 
     }
-    private void get_book_data_notes_cbse(String lng, String clas, String home_page_url, String app_name, Context context) {
+    private void get_book_data_notes_cbse(String lng, String clas, String home_page_url, String app_name,
+                                          Context context, open_call call) {
 
         List<Modal>list = null;
         GetData getData=new GetData();
@@ -806,7 +807,7 @@ public class XUtils extends Activity {
                         }
 
 //
-                        get_book_data_book_cbse(lng,clas,home_page_url,app_name,context);
+                        get_book_data_book_cbse(lng,clas,home_page_url,app_name,context,call);
 
                     }
                 },
@@ -822,7 +823,7 @@ public class XUtils extends Activity {
 
     }
 
-    private void get_book_data_book_cbse(String lng, String clas, String home_page_url, String app_name, Context context) {
+    private void get_book_data_book_cbse(String lng, String clas, String home_page_url, String app_name, Context context, open_call call) {
 
         List<Modal>list = null;
         GetData getData=new GetData();
@@ -852,7 +853,7 @@ public class XUtils extends Activity {
                                 // Do something with the extracted data
 
                             }
-                            home_page_book_data_cbse(home_page_url,app_name,context);
+                            home_page_book_data_cbse(home_page_url,app_name,context,call);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -919,7 +920,7 @@ public class XUtils extends Activity {
 
         queue.add(request);
     }
-    public void home_page_book_data_cbse(String url, String main_app_subject, Context context) {
+    public void home_page_book_data_cbse(String url, String main_app_subject, Context context, open_call call) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -943,10 +944,8 @@ public class XUtils extends Activity {
 
                             }
 
-                            Intent intent=new Intent(context, main_act.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            context.startActivity(intent);
-                            ((Activity) context).finish();
+                            call.open();
+
 
 
 
@@ -954,6 +953,7 @@ public class XUtils extends Activity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            call.error(e.toString());
 
                        
                         }

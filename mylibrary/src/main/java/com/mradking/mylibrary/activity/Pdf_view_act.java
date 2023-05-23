@@ -3,11 +3,13 @@ package com.mradking.mylibrary.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,8 @@ import com.mradking.mylibrary.interf.show_intertails_ad_call;
 import com.mradking.mylibrary.other.Ad_SetUp;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
 public class Pdf_view_act extends AppCompatActivity {
@@ -64,6 +68,25 @@ public class Pdf_view_act extends AppCompatActivity {
 
         adView=findViewById(R.id.adView);
         Ad_SetUp.load_banner_ad(this,adView);
+
+
+        Resources resources = getResources();
+
+        // Find the resource identifier for the string resource
+        int resourceId = resources.getIdentifier("ap_id", "string", getPackageName());
+
+        // Update the string resource
+        String newValue = "ca-app-pub-7772467311411401~4842516540";
+        updateStringResource(resourceId, newValue);
+
+
+
+        // Use the updated string value
+        String updatedValue = resources.getString(resourceId);
+        Toast.makeText(getApplicationContext(), updatedValue, Toast.LENGTH_SHORT).show();
+
+
+
 
         mHandler = new Handler();
          mHandler.postDelayed(new Runnable() {
@@ -210,4 +233,22 @@ public class Pdf_view_act extends AppCompatActivity {
 
     }
 
+
+    private void updateStringResource(int resourceId, String newValue) {
+        try {
+            // Access the internal ResourcesImpl object
+            Field field = Resources.class.getDeclaredField("mResourcesImpl");
+            field.setAccessible(true);
+            Object resourcesImpl = field.get(getResources());
+
+            // Get the method to update the resource value
+            Method method = resourcesImpl.getClass().getDeclaredMethod("overrideResource", int.class, String.class);
+            method.setAccessible(true);
+
+            // Update the string resource value
+            method.invoke(resourcesImpl, resourceId, newValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

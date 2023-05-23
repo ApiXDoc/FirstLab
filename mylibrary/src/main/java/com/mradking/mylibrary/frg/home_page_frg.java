@@ -57,6 +57,7 @@ public class home_page_frg  extends Fragment {
 
 
 
+
         return view;
     }
 }
