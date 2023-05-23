@@ -44,6 +44,10 @@
             android:screenOrientation="portrait"
             ></activity>
 
+        <activity android:name=".activity.Pdf_view_frome_assete"
+            android:theme="@style/NoActionBar"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
