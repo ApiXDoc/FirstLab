@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.mradking.mylibrary.R;
-import com.mradking.mylibrary.interf.open_call;
 import com.mradking.mylibrary.other.XUtils;
 
 public class Splash extends Activity {
@@ -33,6 +32,10 @@ public class Splash extends Activity {
             String home_page_name=getIntent().getExtras().getString("home_page_name");
 
 
+        Intent intent=new Intent(Splash.this, Pdf_show_from_assets.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
 
         app_name_tv.setText(app_name);
             tag_line_tv.setText(tag_line);
@@ -40,23 +43,25 @@ public class Splash extends Activity {
             imageView2.setImageBitmap(bitmap);
             XUtils utils=new XUtils();
 
-             utils.get_book_sol_cbse(lanuga, clas,
-                     home_page_url,
-                     home_page_name, this, new open_call() {
-                         @Override
-                         public void open() {
 
-                             Intent intent=new Intent(Splash.this, main_act.class);
-                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                         }
 
-                         @Override
-                         public void error(String message) {
-
-                         }
-                     });
+//             utils.get_book_sol_cbse(lanuga, clas,
+//                     home_page_url,
+//                     home_page_name, this, new open_call() {
+//                         @Override
+//                         public void open() {
+//
+//                             Intent intent=new Intent(Splash.this, main_act.class);
+//                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                startActivity(intent);
+//                                finish();
+//                         }
+//
+//                         @Override
+//                         public void error(String message) {
+//
+//                         }
+//                     });
 
 
 
