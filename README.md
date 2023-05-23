@@ -15,8 +15,16 @@ allprojects {
   Step 2. Add the dependency
   
   ...gradle
+  
+  for add fragment of rs or rd books
   dependencies {
-	        implementation 'com.github.pawandeepZin:FirstLab:1.0.8'
+	        implementation 'com.github.pawandeepZin:FirstLab:1.1.2'
+	}
+
+for simple book
+
+dependencies {
+	        implementation 'com.github.pawandeepZin:FirstLab:1.1.1'
 	}
 
 ...
