@@ -69,6 +69,7 @@ public class Pdf_view_act extends AppCompatActivity {
         Ad_SetUp.load_banner_ad(this,adView);
 
 
+        
 
 
 
