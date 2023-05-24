@@ -1,7 +1,6 @@
 package com.mradking.mylibrary.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -32,9 +31,7 @@ public class Splash extends Activity {
             String home_page_name=getIntent().getExtras().getString("home_page_name");
 
 
-        Intent intent=new Intent(Splash.this, Pdf_show_from_assets.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+
 
 
         app_name_tv.setText(app_name);
