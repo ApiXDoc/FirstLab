@@ -1,4 +1,8 @@
 package com.mradking.firstlab;
 
-public class test {
+import android.app.Activity;
+
+public class test extends Activity {
+
+    
 }
