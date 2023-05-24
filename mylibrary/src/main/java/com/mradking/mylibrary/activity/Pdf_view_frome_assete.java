@@ -68,21 +68,7 @@ public class Pdf_view_frome_assete extends AppCompatActivity {
         Ad_SetUp.load_banner_ad(this,adView);
 
 
-        Resources resources = getResources();
-
-        // Find the resource identifier for the string resource
-        int resourceId = resources.getIdentifier("ap_id", "string", getPackageName());
-
-        // Update the string resource
-        String newValue = "ca-app-pub-7772467311411401~4842516540";
-        updateStringResource(resourceId, newValue);
-
-
-
-        // Use the updated string value
-        String updatedValue = resources.getString(resourceId);
-        Toast.makeText(getApplicationContext(), updatedValue, Toast.LENGTH_SHORT).show();
-
+       
 
 
 
