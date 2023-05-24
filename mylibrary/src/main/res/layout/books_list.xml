@@ -28,7 +28,7 @@
         android:layout_height="200dp"
         android:id="@+id/image"
         android:scaleType="fitXY"
-        android:src="@drawable/solution"
+        android:src="@drawable/notes"
         ></ImageView>
 
     <LinearLayout

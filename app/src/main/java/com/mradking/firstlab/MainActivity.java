@@ -1,15 +1,10 @@
 package com.mradking.firstlab;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Toast;
 
-
-import com.mradking.mylibrary.activity.Splash;
 import com.mradking.mylibrary.other.Ad_SetUp;
 import com.mradking.mylibrary.other.XUtils;
 
@@ -22,6 +17,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Toast.makeText(this,"this main",Toast.LENGTH_SHORT).show();
 
 
 //
