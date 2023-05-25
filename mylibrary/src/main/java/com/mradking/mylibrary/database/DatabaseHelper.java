@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import com.mradking.mylibrary.modal.Modal;
 
 import java.util.ArrayList;
@@ -105,6 +104,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
                 new String[] { id });
+    }
+    public void deleteAllData() {
+        SQLiteDatabase database = getWritableDatabase(); // Replace with your database reference
+
+        // Delete all rows from the table
+        database.delete(TABLE_NAME, null, null);
+
+        // Close the database
+        database.close();
     }
 
 

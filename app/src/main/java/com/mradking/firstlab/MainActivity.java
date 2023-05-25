@@ -3,7 +3,6 @@ package com.mradking.firstlab;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.mradking.mylibrary.other.Ad_SetUp;
 import com.mradking.mylibrary.other.XUtils;
@@ -19,7 +18,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        Toast.makeText(this,"this main",Toast.LENGTH_SHORT).show();
 
 
 //

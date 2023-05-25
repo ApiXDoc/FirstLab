@@ -1,6 +1,7 @@
 package com.mradking.mylibrary.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -9,6 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.mradking.mylibrary.R;
+import com.mradking.mylibrary.database.DatabaseHelper;
+import com.mradking.mylibrary.database.DatabaseHelper_Book2;
+import com.mradking.mylibrary.database.DatabaseHelper_Book3;
+import com.mradking.mylibrary.interf.open_call;
 import com.mradking.mylibrary.other.XUtils;
 
 public class Splash extends Activity {
@@ -40,25 +45,32 @@ public class Splash extends Activity {
             imageView2.setImageBitmap(bitmap);
             XUtils utils=new XUtils();
 
+        DatabaseHelper db1=new DatabaseHelper(this);
+        DatabaseHelper_Book2 db2=new DatabaseHelper_Book2(this);
+        DatabaseHelper_Book3 db3=new DatabaseHelper_Book3(this);
+
+        db1.deleteAllData();
+        db2.deleteAllData();
+        db3.deleteAllData();
 
 
-//             utils.get_book_sol_cbse(lanuga, clas,
-//                     home_page_url,
-//                     home_page_name, this, new open_call() {
-//                         @Override
-//                         public void open() {
-//
-//                             Intent intent=new Intent(Splash.this, main_act.class);
-//                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                startActivity(intent);
-//                                finish();
-//                         }
-//
-//                         @Override
-//                         public void error(String message) {
-//
-//                         }
-//                     });
+             utils.get_book_sol_cbse(lanuga, clas,
+                     home_page_url,
+                     home_page_name, this,new open_call() {
+                         @Override
+                         public void open() {
+
+                             Intent intent=new Intent(Splash.this, main_act.class);
+                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                         }
+
+                         @Override
+                         public void error(String message) {
+
+                         }
+                     });
 
 
 
